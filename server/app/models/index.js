@@ -18,10 +18,33 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.husband = require("./husband.model.js")(sequelize, Sequelize);
-db.wife = require("./wife.model.js")(sequelize, Sequelize);
+db.categorieTVA = require("./categorie-tva.model.js")(sequelize, Sequelize);
+db.produit = require("./produit.model.js")(sequelize, Sequelize);
 
-db.husband.belongsTo(db.wife, { foreignKey: 'wifeID' });
-db.wife.hasOne(db.husband, { foreignKey: 'wifeID' });
+db.produit.belongsTo(db.categorieTVA, { foreignKey: 'codeTVA' });
+db.categorieTVA.hasMany(db.produit, { foreignKey: 'codeTVA' });
+
+db.client = require("./client.model.js")(sequelize, Sequelize);
+db.prestation = require("./prestation.model.js")(sequelize, Sequelize);
+
+db.prestation.belongsTo(db.client, { foreignKey: 'codeClient'});
+db.client.hasMany(db.prestation, { foreignKey: 'codeClient' });
+
+db.designation = require("./designation.model.js")(sequelize, Sequelize);
+
+db.designation.belongsTo(db.produit, { foreignKey: 'produitID'});
+db.produit.hasMany(db.designation, { foreignKey: 'produitID' });
+
+db.designation.belongsTo(db.prestation, { foreignKey: 'prestationID'});
+db.prestation.hasMany(db.designation, { foreignKey: 'prestationID' });
+
+db.paiement = require("./paiement.model.js")(sequelize, Sequelize);
+db.facture = require("./facture.model.js")(sequelize, Sequelize);
+
+db.facture.belongsTo(db.paiement, { foreignKey: 'paiementID'});
+db.paiement.hasMany(db.facture, { foreignKey: 'paiementID' });
+
+db.facture.belongsTo(db.prestation, { foreignKey: 'prestationID'});
+db.prestation.hasOne(db.facture, { foreignKey: 'prestationID' });
 
 module.exports = db;

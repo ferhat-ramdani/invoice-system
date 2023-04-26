@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to ferhat application." });
 });
 
-require("./app/routes/tutorial.routes")(app);
+require("./app/routes/invoice-system.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
     wifeID: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      refrences: {
+      references: {
         model: 'wife',
         key: 'id'
       }
