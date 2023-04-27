@@ -1,8 +1,21 @@
 import React, { Component } from "react";
-import TutorialDataService from "../services/tutorial.service";
+import SystemDataService from "../services/system.services";
 import { Link } from "react-router-dom";
+import { withRouter } from "../common/with-router";
 
-export default class Welcome extends Component {
+class Welcome extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    
+  }
+
+
+
   render() {
     return (
       <div className="container">
@@ -16,3 +29,5 @@ export default class Welcome extends Component {
     );
   }
 }
+
+export default withRouter(Welcome);

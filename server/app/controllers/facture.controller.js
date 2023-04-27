@@ -1,5 +1,11 @@
 const db = require("../models");
 const Facture = db.facture;
+const Paiement = db.paiement;
+const Prestation = db.prestation;
+const Designation = db.designation;
+const Produit = db.produit;
+const CategorieTVA = db.categorieTVA;
+const Client = db.client;
 
 // post | factures
 exports.create = (req, res) => {
@@ -82,3 +88,66 @@ exports.update = (req, res) => {
       });
     });
 };
+
+// get | /facture:ref
+exports.getFactureWithDetails = (req, res) => {
+  const ref = req.params.ref;
+
+  Facture.findOne({
+    where: { ref: ref },
+    include: [
+      {
+        model: Paiement,
+        attributes: ['domiciliation', 'proprietaire', 'IBAN', 'BIC_SWIFT']
+      },
+      {
+        model: Prestation,
+        attributes: ['id'],
+        include: 
+        [
+          {
+            model: Designation,
+            attributes: ['nom', 'qte', 'PUHT'],
+            include:
+              {
+                model: Produit,
+                attributes: ['id'],
+                include: {
+                  model: CategorieTVA,
+                  attributes: ['taux']
+                }
+              }
+          },
+          {
+            model: Client,
+            attributes: ['SIRET', 'capital', 'NAF_APE', 'numTVA']
+          }
+        ]
+      },
+    ],
+  })
+    .then((facture) => {
+      if (!facture) {
+        return res.status(404).json({ message: "Facture not found" });
+      }
+      res.json(facture);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "An error occurred while retrieving the facture with details." });
+    });
+};
+
+// get | /facture
+exports.getAllFactures = (req, res) => {
+  Facture.findAll({attributes: ['ref', 'nomClient']})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving factures."
+      });
+    });
+}

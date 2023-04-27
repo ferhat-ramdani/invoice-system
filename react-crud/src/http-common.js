@@ -5,7 +5,7 @@ of like Postman.
 import axios from "axios";
 
 export default axios.create({ //returns an instance of axios
-  baseURL: "http://localhost:8080/api",
+  baseURL: "http://localhost:8080/api/invoice-system",
   headers: {
     "Content-type": "application/json"
   }

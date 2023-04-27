@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TutorialDataService from "../services/tutorial.service";
+import TutorialDataService from "../rabish_bin/tutorial.service";
 import { withRouter } from '../common/with-router';
 
 class Tutorial extends Component {

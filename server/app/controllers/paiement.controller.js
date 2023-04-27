@@ -13,6 +13,7 @@ exports.create = (req, res) => {
   const paiement = {
     id: req.body.id,
     domiciliation: req.body.domiciliation,
+    proprietaire: req.body.proprietaire,
     IBAN: req.body.IBAN,
     BIC_SWIFT: req.body.BIC_SWIFT,
   };

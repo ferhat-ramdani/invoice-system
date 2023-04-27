@@ -1,192 +1,287 @@
 import React, { Component } from "react";
-import TutorialDataService from "../services/tutorial.service";
+import SystemDataService from "../services/system.services";
 import { Link } from "react-router-dom";
+import { withRouter } from "../common/with-router";
 
-export default class Invoices extends Component {
-  render() {
-    return (
-        <div className="list row">
-            <div className="col-6">
-            <h4>Factures</h4>
+class Invoice extends Component {
+    
+    constructor(props) {
+        super(props);
 
-            <ul className="list-group">
-                <li className="list-group-item" >
-                    Ref_1
-                </li>
-                <li className="list-group-item active" >
-                    2022-0025_Mon_Client_SAS
-                </li>
-                <li className="list-group-item" >
-                    Ref_3
-                </li>
-                <li className="list-group-item" >
-                    Ref_4
-                </li>
-                <li className="list-group-item" >
-                    Ref_5
-                </li>
-                <li className="list-group-item" >
-                    Ref_6
-                </li>
-            </ul>
+        this.state = {
+            factures : [],
+            selectedFacture : null,
+            selectedIndex : -1,
+            factureDetails : null
+        };
+    }
 
-            <Link to="/edit" className="badge text-bg-warning" >
-                Edit
-            </Link>
-            </div>
+    getFactures() {
+        SystemDataService.getInvoices()
+        .then(response => {
+            this.setState({factures : response.data});
+        })
+        .catch(e => {
+            console.log(e);
+        });
+    }
 
-            <div className="col-6">
-                <div>
-                    <div className="facture">
+    getFactureDetails(ref) {
+        SystemDataService.getInvoice(ref)
+        .then(response => {
+            this.setState({factureDetails : response.data});
+            console.log(this.state)
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+
+    setActiveFacture(facture, index) {
+    this.setState({
+        selectedFacture: facture,
+        selectedIndex: index
+    });
+    this.getFactureDetails(facture.ref);
+    }
+
+    convertToMoney(money) {
+        money = parseFloat(money);
+        money = money.toLocaleString('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+        });
+        return money;
+    }
+
+    convertDate(dateStr) {
+        const date = new Date(dateStr);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+        return formattedDate;
+    }
+
+    getTTC() {
+        var TTC = 0;
+        this.state.factureDetails.prestation.designations.map((designation) => {
+            let {PUHT, qte, produit} = designation;
+            TTC += parseFloat(PUHT) * parseFloat(qte) * (1 + parseFloat(produit.categorieTVA.taux));
+        });
+        return this.convertToMoney(TTC);
+    }
+
+    getHT() {
+        var HT = 0;
+        this.state.factureDetails.prestation.designations.map((designation) => {
+            let {PUHT, qte} = designation;
+            HT += parseFloat(PUHT) * parseFloat(qte);
+        });
+        return this.convertToMoney(HT);
+    }
+
+    getTotalTVAs() {
+        
+    }
+
+    
+    componentDidMount() {
+    this.getFactures();
+    }
+
+
+    render() {
+        
+        const { factures, selectedFacture, selectedIndex, factureDetails } = this.state;
+
+        return (
+            <div className="list row">
+                <div className="col-6">
+                <h4>Factures</h4>
+    
+                <ul className="list-group">
+                    {factures && factures.map((facture, index) => (
+                        <li className={
+                                "list-group-item " +
+                                (index === selectedIndex ? "active" : "")
+                            }
+                            onClick={() => this.setActiveFacture(facture, index)}
+                            key={index}
+                        >
+                        {facture.ref + " - " + facture.nomClient}
+                        </li>
+                    ))}
+
+                </ul>
+    
+                {/* <Link to="/edit" className="badge text-bg-warning" >
+                    Edit
+                </Link> */}
+                </div>
+                
+
+                {factureDetails ? (
+
+                    <div className="col-6">
                         <div>
-                            <div className="facture-area">
-                                <h3><strong>Facture</strong></h3>
+                            <div className="facture">
                                 <div>
-                                    <label>
-                                        <span className="ref">Réf : 2022-0025</span>
-                                    </label>
-                                </div>
-                                <div className="facture-details">
-                                    <div>
-                                        Date facturation : 26/07/2018
-                                    </div>
-                                    <div>
-                                        Date échéance : 31/07/2018
-                                    </div>
-                                    <div>
-                                        Code Client : CU2203-0005
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="client">
-                                <div className="client-content">
-                                    <span className="target">adressé à</span>
-                                    <div className="client-details">
+                                    <div className="facture-area">
+                                        <h3><strong>Facture</strong></h3>
                                         <div>
-                                            <strong>Mon client SAS</strong>
+                                            <label>
+                                                <span className="ref">Réf : {factureDetails.ref}</span>
+                                            </label>
+                                        </div>
+                                        <div className="facture-details">
+                                            <div>
+                                                Date facturation : {this.convertDate(factureDetails.dateFacturation)}
+                                            </div>
+                                            <div>
+                                                Date échéance : {this.convertDate(factureDetails.dateEcheance)}
+                                            </div>
+                                            <div>
+                                                Code Client : {factureDetails.codeClient}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="client">
+                                        <div className="client-content">
+                                            <span className="target">adressé à</span>
+                                            <div className="client-details">
+                                                <div>
+                                                    <strong>
+                                                        {factureDetails.nomClient}
+                                                    </strong>
+                                                </div>
+                                                <div>
+                                                    {factureDetails.adresseClient}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="company">
+                                        <div>
+                                            <span className="target">Emméteur</span>
+                                        </div>
+                                        <div className="company-details">
+                                            <div>
+                                                <strong>Okayo SAS</strong>
+                                            </div>
+                                            <div>
+                                                35 Rue Du Général Foy
+                                                <br></br>
+                                                75008 Paris
+                                            </div>
+                                            <div>
+                                                Tel. : 01 80 88 63 00
+                                            </div>
+                                            <div>
+                                                web : <a href="https://www.okayo.fr">www.okayo.fr</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Désignation</th>
+                                            <th scope="col">TVA</th>
+                                            <th scope="col">P.U. HT</th>
+                                            <th scope="col">Qté</th>
+                                            <th scope="col">Total HT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {factureDetails.prestation.designations.map((designation, index) => (
+                                                <tr key={index}>
+                                                    <th scope="row">{designation.nom}</th>
+                                                    <td>
+                                                        {designation.produit.categorieTVA.taux * 100 + "%"}
+                                                    </td>
+                                                    <td>
+                                                        {this.convertToMoney(designation.PUHT)}
+                                                    </td>
+                                                    <td>{designation.qte}</td>
+                                                    <td>
+                                                        {this.convertToMoney(designation.PUHT * designation.qte)}
+                                                    </td>
+                                                </tr>
+                                            ))}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="total">
+                                    <div className="sub-total">
+                                        <div>
+                                            Total TVA 20% <span className="total-value">14 600,00</span>
                                         </div>
                                         <div>
-                                            45, rue du test
-                                            <br></br>
-                                            75016 PARIS
+                                            Total TVA 7% <span className="total-value">560,00</span>
+                                        </div>
+                                        <div>
+                                            Total TVA 5.5% <span className="total-value">165,00</span>
+                                        </div>
+                                    </div>
+                                    <div className="super-total">
+                                        Total TTC <span className="total-value">
+                                            {this.getTTC()}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="payment">
+                                    <div className="payment-recap">
+                                        <div>
+                                            <strong>Condition de règlement</strong> <span className="total-value">Règlement à la livraison</span>
+                                        </div>
+                                        <div>
+                                            <strong>Total HT</strong> <span className="total-value">{this.getHT()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="payment-details">
+                                        <strong>Règlement par virement sur le compte bancaire suivant: </strong>
+                                        <div>
+                                            Domiciliation: {factureDetails.paiement.domiciliation}
+                                        </div>
+                                        <div>
+                                            Nom du propriétaire du compte: {factureDetails.paiement.proprietaire}
+                                        </div>
+                                        <div>
+                                            <strong>Code IBAN: {factureDetails.paiement.IBAN}</strong>
+                                        </div>
+                                        <div>
+                                            <strong>Code BIC/SWIFT: {factureDetails.paiement.BIC_SWIFT}</strong>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="company">
-                                <div>
-                                    <span className="target">Emméteur</span>
-                                </div>
-                                <div className="company-details">
+                                <div className="client-info">
                                     <div>
-                                        <strong>Okayo SAS</strong>
+                                        Société par actions simplifiée (SAS) - 
+                                        Capital de {factureDetails.prestation.client.capital} - 
+                                        SIRET: {factureDetails.prestation.client.SIRET}
                                     </div>
-                                    <div>
-                                        35 Rue Du Général Foy
-                                        <br></br>
-                                        75008 Paris
-                                    </div>
-                                    <div>
-                                        Tel. : 01 80 88 63 00
-                                    </div>
-                                    <div>
-                                        web : <a href="https://www.okayo.fr">www.okayo.fr</a>
-                                    </div>
+                                    <div>NAF-APE: {factureDetails.prestation.client.NAF_APE} - 
+                                        Num. TVA: {factureDetails.prestation.client.numTVA}</div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Désignation</th>
-                                    <th scope="col">TVA</th>
-                                    <th scope="col">P.U. HT</th>
-                                    <th scope="col">Qté</th>
-                                    <th scope="col">Total HT</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Mon produit C</th>
-                                        <td>20%</td>
-                                        <td>70 000,00</td>
-                                        <td>1</td>
-                                        <td>70 000,00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Mon produit A</th>
-                                        <td>5.5%</td>
-                                        <td>1 500,00</td>
-                                        <td>2</td>
-                                        <td>3 000,00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Mon produit D</th>
-                                        <td>20%</td>
-                                        <td>3 000,00</td>
-                                        <td>1</td>
-                                        <td>3 000,00</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Mon produit B</th>
-                                        <td>7%</td>
-                                        <td>4 000,00</td>
-                                        <td>2</td>
-                                        <td>8 000,00</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="total">
-                            <div className="sub-total">
-                                <div>
-                                    Total TVA 20% <span className="total-value">14 600,00</span>
-                                </div>
-                                <div>
-                                    Total TVA 7% <span className="total-value">560,00</span>
-                                </div>
-                                <div>
-                                    Total TVA 5.5% <span className="total-value">165,00</span>
-                                </div>
-                            </div>
-                            <div className="super-total">
-                                Total TTC <span className="total-value">99 325,00</span>
-                            </div>
-                        </div>
-                        <div className="payment">
-                            <div className="payment-recap">
-                                <div>
-                                    <strong>Condition de règlement</strong> <span className="total-value">Règlement à la livraison</span>
-                                </div>
-                                <div>
-                                    <strong>Total HT</strong> <span className="total-value">84 000,00</span>
-                                </div>
-                            </div>
-                            <div className="payment-details">
-                                <strong>Règlement par virement sur le compte bancaire suivant: </strong>
-                                <div>
-                                    Domiciliation: BRED 
-                                </div>
-                                <div>
-                                    Nom du propriétaire du compte: OKAYO
-                                </div>
-                                <div>
-                                    <strong>Code IBAN: FR76 0000 0000 0000 0000 0000 097</strong>
-                                </div>
-                                <div>
-                                    <strong>Code BIC/SWIFT: BREDFRPPXXX</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="client-info">
-                            <div>Société par actions simplifiée (SAS) - Capital de 10 000 € - SIRET: 82255940700017</div>
-                            <div>NAF-APE: 6201Z - Num. TVA: FR 76 822559407</div>
                         </div>
                     </div>
-                </div>
+
+
+                ) : (
+                    <div className="col-6">
+                        <center>selectionner une facture à afficher ...</center>
+                    </div>
+                )}
+
             </div>
-      </div>
-    );
-  }
+        );
+    }
+
 }
+
+export default withRouter(Invoice);

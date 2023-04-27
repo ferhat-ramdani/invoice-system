@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TutorialDataService from "../services/tutorial.service";
+import TutorialDataService from "./tutorial.service";
 
 export default class AddTutorial extends Component {
   constructor(props) {

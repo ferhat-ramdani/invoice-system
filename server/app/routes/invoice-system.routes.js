@@ -37,7 +37,8 @@ module.exports = app => {
   router.post("/factures", factures.create);
   router.delete("/factures/:ref", factures.delete);
   router.put("/factures/:ref", factures.update);
-
+  router.get("/factures/:ref", factures.getFactureWithDetails);
+  router.get("/factures", factures.getAllFactures);
 
   app.use('/api/invoice-system', router);
 };
