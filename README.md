@@ -25,4 +25,13 @@ Back-End :
   <li> Visualisation des factures de la base de données </li>
   <li> Creation, modification et suppression des tables à travers la plateforme </li>
 </ul>
-<h1>Captures</h1>
+<h1>Aperçu</h1>
+Page d'accuil :
+<img tab="Capture page bienvenu" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/bienvenu.jpeg">
+Page des factures:
+Selection d'une facture:
+Catalogue:
+Selection d'un produit:
+Modification d'un produit:
+Page client:
+Ajout d'un client:
