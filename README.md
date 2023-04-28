@@ -56,7 +56,7 @@ Ajout d'un client:
 
 <h1>Démo vidéo</h1>
 <video width="320" height="240" controls>
-  <source src="VIDEO-URL" type="video/mp4">
+  <source src="https://github.com/ferhat-ramdani/invoice-system/blob/master/documentation/demo.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 
