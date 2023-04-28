@@ -29,9 +29,18 @@ Back-End :
 Page d'accuil :
 <img tab="Capture page bienvenu" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/bienvenu.jpeg">
 Page des factures:
+<img tab="Capture Page des factures" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/factures.jpeg">
 Selection d'une facture:
+<img tab="Capture Selection d'une facture" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/factures-exemple.jpeg">
 Catalogue:
+<img tab="Capture Catalogue" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/produits.jpeg">
 Selection d'un produit:
+<img tab="Capture Selection d'un produit" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/produits-exemple.jpeg">
 Modification d'un produit:
+<img tab="Capture Modification d'un produit" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/produits-modifier.jpeg">
 Page client:
+<img tab="Capture Page client" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/clients.jpeg">
+Selection d'un client:
+<img tab="Capture selection d'un client" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/clients-exemple.jpeg">
 Ajout d'un client:
+<img tab="Capture Ajout d'un client" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/clients-ajouter.jpeg">
