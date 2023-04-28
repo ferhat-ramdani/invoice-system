@@ -22,18 +22,10 @@ module.exports = (sequelize, Sequelize) => {
       },
       prestationID: {
         type: Sequelize.INTEGER,
-        // references: {
-        //     model: 'prestation',
-        //     key: 'id'
-        // }
       },
       paiementID: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        // references: {
-        //     model: 'paiement',
-        //     key: 'id'
-        // }
       }
     });
   

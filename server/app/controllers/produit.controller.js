@@ -1,5 +1,11 @@
 const db = require("../models");
+const Facture = db.facture;
+const Paiement = db.paiement;
+const Prestation = db.prestation;
+const Designation = db.designation;
 const Produit = db.produit;
+const CategorieTVA = db.categorieTVA;
+const Client = db.client;
 
 // post | /produits
 exports.create = (req, res) => {
@@ -79,3 +85,40 @@ exports.update = (req, res) => {
       });
     });
 };
+
+// get | /produits
+exports.getAllProduits = (req, res) => {
+  Produit.findAll({
+    attributes: ['id', 'nom', 'PUHT', 'description'],
+    include: {
+      model: CategorieTVA,
+      attributes: ['taux'],
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving produits."
+      });
+    });
+}
+
+// get | /produits/:id
+exports.getProduit = (req, res) => {
+  const id = req.params.id;
+
+  Produit.findByPk(id)
+  .then((produit) => {
+    if (!produit) {
+      res.status(404).send({ message: "Produit not found" });
+    } else {
+      res.status(200).send(produit);
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({ message: err.message });
+  });
+}

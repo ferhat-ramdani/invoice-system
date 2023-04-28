@@ -30,7 +30,7 @@ exports.create = (req, res) => {
     });
 };
 
-// delete | /paiement/:id
+// delete | /paiements/:id
 exports.delete = (req, res) => {
   const id = req.params.id;
 
@@ -55,7 +55,7 @@ exports.delete = (req, res) => {
     });
 }
 
-// put | /paiement/:id
+// put | /paiements/:id
 exports.update = (req, res) => {
   const id = req.params.id;
 

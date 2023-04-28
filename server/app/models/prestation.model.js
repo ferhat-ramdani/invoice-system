@@ -9,10 +9,6 @@ module.exports = (sequelize, Sequelize) => {
       codeClient: {
         type: Sequelize.STRING,
         allowNull: false,
-        // references: {
-        //   model: 'client',
-        //   key: 'code'
-        // }
       },
       statut: {
         type: Sequelize.BOOLEAN

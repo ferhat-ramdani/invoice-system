@@ -18,10 +18,6 @@ module.exports = (sequelize, Sequelize) => {
       codeTVA: {
         type: Sequelize.INTEGER,
         allowNull: false
-        // references: {
-        //   model: 'categorieTVA',
-        //   key: 'id'
-        // }
       }
     });
     

@@ -13,14 +13,19 @@ module.exports = app => {
   router.post("/categorieTVAs", categorieTVAs.create);
   router.delete("/categorieTVAs/:id", categorieTVAs.delete);
   router.put("/categorieTVAs/:id", categorieTVAs.update);
+  router.get("/categorieTVAs", categorieTVAs.getAllTVAs);
 
   router.post("/produits", produits.create);
   router.delete("/produits/:id", produits.delete);
   router.put("/produits/:id", produits.update);
+  router.get("/produits", produits.getAllProduits);
+  router.get("/produits/:id", produits.getProduit);
 
   router.post("/clients", clients.create);
   router.delete("/clients/:code", clients.delete);
   router.put("/clients/:code", clients.update);
+  router.get("/clients", clients.getAllClients);
+  router.get("/clients/:code", clients.getClient);
 
   router.post("/prestations", prestations.create);
   router.delete("/prestations/:id", prestations.delete);

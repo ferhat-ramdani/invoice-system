@@ -15,20 +15,15 @@ module.exports = (sequelize, Sequelize) => {
       PUHT: {
         type: Sequelize.DECIMAL(10, 2)
       },
+      taux: {
+        type: Sequelize.DECIMAL(3, 2)
+      },
       produitID: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        // references: {
-        //   model: 'produit',
-        //   key: 'id'
-        // }
       },
       prestationID: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'prestation',
-        //   key: 'id'
-        // }
       }
     });
   

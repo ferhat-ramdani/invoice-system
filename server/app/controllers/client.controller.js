@@ -81,3 +81,36 @@ exports.update = (req, res) => {
       });
     });
 };
+
+// get | /clients
+exports.getAllClients = (req, res) => {
+  Client.findAll({
+    attributes: ['code', 'nom', 'adresse', 'SIRET', 'NAF_APE', 'numTVA', 'capital'],
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving clients."
+      });
+    });
+}
+
+// get | /clients/:code
+exports.getClient = (req, res) => {
+  const code = req.params.code;
+
+  Client.findByPk(code)
+  .then((produit) => {
+    if (!produit) {
+      res.status(404).send({ message: "Client not found" });
+    } else {
+      res.status(200).send(produit);
+    }
+  })
+  .catch((err) => {
+    res.status(500).send({ message: err.message });
+  });
+}

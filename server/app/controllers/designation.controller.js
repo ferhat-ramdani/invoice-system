@@ -15,6 +15,7 @@ exports.create = (req, res) => {
     nom: req.body.nom,
     qte: req.body.qte,
     PUHT: req.body.PUHT,
+    taux: req.body.taux,
     produitID:  req.body.produitID,
     prestationID:  req.body.prestationID
   };

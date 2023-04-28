@@ -1,7 +1,7 @@
 const db = require("../models");
 const CategorieTVA = db.categorieTVA;
 
-// post | /categorieTVA
+// post | /categorieTVAs
 exports.create = (req, res) => {
   if (!req.body.id) {
     res.status(400).send({
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
     });
 };
 
-// delete | /categorieTVA/:id
+// delete | /categorieTVAs/:id
 exports.delete = (req, res) => {
   const id = req.params.id;
 
@@ -54,7 +54,7 @@ exports.delete = (req, res) => {
     });
 }
 
-// put | /categorieTVA/:id
+// put | /categorieTVAs/:id
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -78,3 +78,19 @@ exports.update = (req, res) => {
       });
     });
 };
+
+// get | /categorieTVAs
+exports.getAllTVAs = (req, res) => {
+  CategorieTVA.findAll({
+    attributes: ['id', 'taux', 'dateDebut', 'dateFin'],
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving categorieTVA."
+      });
+    });
+}

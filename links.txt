@@ -1,3 +1,0 @@
-https://www.bezkoder.com/react-node-express-postgresql/
-https://www.bezkoder.com/node-express-sequelize-postgresql/
-https://www.bezkoder.com/react-crud-web-api/

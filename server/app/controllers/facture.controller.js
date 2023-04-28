@@ -89,7 +89,7 @@ exports.update = (req, res) => {
     });
 };
 
-// get | /facture:ref
+// get | /factures:ref
 exports.getFactureWithDetails = (req, res) => {
   const ref = req.params.ref;
 
@@ -107,16 +107,7 @@ exports.getFactureWithDetails = (req, res) => {
         [
           {
             model: Designation,
-            attributes: ['nom', 'qte', 'PUHT'],
-            include:
-              {
-                model: Produit,
-                attributes: ['id'],
-                include: {
-                  model: CategorieTVA,
-                  attributes: ['taux']
-                }
-              }
+            attributes: ['nom', 'qte', 'PUHT', 'taux']
           },
           {
             model: Client,
@@ -138,7 +129,7 @@ exports.getFactureWithDetails = (req, res) => {
     });
 };
 
-// get | /facture
+// get | /factures
 exports.getAllFactures = (req, res) => {
   Facture.findAll({attributes: ['ref', 'nomClient']})
     .then(data => {
