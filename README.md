@@ -54,12 +54,6 @@ Selection d'un client:
 Ajout d'un client:
 <img tab="Capture Ajout d'un client" src="https://github.com/ferhat-ramdani/invoice-system/blob/actual-database/documentation/clients-ajouter.jpeg">
 
-<h1>Démo vidéo</h1>
-<video width="320" height="240" controls>
-  <source src="https://github.com/ferhat-ramdani/invoice-system/blob/master/documentation/demo.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
-
 <h1>Pistes d'améliorations et nouvelles fonctionnalités</h1>
 
 La page catalogue n'est pas complète, les boutons "+" et "-" servent à ajouter ou supprimer un produit dans le panel de prestation, voici les fonctionnalités envisagées : 
