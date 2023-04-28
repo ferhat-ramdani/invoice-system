@@ -8,10 +8,6 @@ class Welcome extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-  }
-
-
   render() {
     return (
       <div className="container">

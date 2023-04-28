@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 
+// Si la base de donnée existe déjà
 db.sequelize.sync()
   .then(() => {
     console.log("Synced db.");
@@ -24,13 +25,13 @@ db.sequelize.sync()
     console.log("Failed to sync db: " + err.message);
   });
 
-// drop existing database
+// Si l'on veux créer une nouvelle ou écraser l'ancienne base de donnée
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to ferhat application." });
+  res.json({ message: "Welcome to invoice-system application." });
 });
 
 require("./app/routes/invoice-system.routes")(app);

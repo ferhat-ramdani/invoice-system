@@ -3,8 +3,6 @@ const Facture = db.facture;
 const Paiement = db.paiement;
 const Prestation = db.prestation;
 const Designation = db.designation;
-const Produit = db.produit;
-const CategorieTVA = db.categorieTVA;
 const Client = db.client;
 
 // post | factures

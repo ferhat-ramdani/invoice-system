@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+// components
 import Welcome from "./components/welcome.component";
 import Invoices from "./components/invoices.component";
 import Catalogue from "./components/catalogue.component";

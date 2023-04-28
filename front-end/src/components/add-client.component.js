@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import SystemDataService from "../services/system.services";
 import { Link } from "react-router-dom";
+import SystemDataService from "../services/system.services";
 
 export default class EditCatalogue extends Component {
   constructor(props) {
@@ -26,13 +26,8 @@ export default class EditCatalogue extends Component {
       submitted: false
     };
   }
-
-  componentDidMount() {
-
-  }
   
   saveClient(currentState) {
-    console.log(currentState)
     var data = {
         code: currentState.code,
         nom: currentState.nom,
@@ -44,15 +39,15 @@ export default class EditCatalogue extends Component {
     };
     
     SystemDataService.createClient(data)
-      .then(response => {
-        this.setState({
-          submitted: true
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-          console.log(e);
+    .then(response => {
+      this.setState({
+        submitted: true
       });
+      console.log(response.data);
+    })
+    .catch(e => {
+        console.log(e);
+    });
   }
 
   onChangeCode(e) {
@@ -112,8 +107,11 @@ export default class EditCatalogue extends Component {
 
   render() {
     return (
+
       <div className="submit-form">
+
         {this.state.submitted ? (
+
           <div>
             <h4>Client ajouté !</h4>
             <button className="btn btn-success" onClick={this.resetState}>
@@ -123,8 +121,11 @@ export default class EditCatalogue extends Component {
                 Retour
             </Link>
           </div>
+
         ) : (
+
           <div>
+
             <div className="form-group">
               <label htmlFor="code">Code</label>
               <input
@@ -221,9 +222,11 @@ export default class EditCatalogue extends Component {
               className="btn btn-success">
                 Submit
             </button>
+
             <Link to={"/client"} className="btn btn-warning" >
                 Retour
             </Link>
+            
           </div>
         )}
     </div>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import SystemDataService from "../services/system.services";
 import { Link } from "react-router-dom";
+import SystemDataService from "../services/system.services";
 
 export default class EditCatalogue extends Component {
   constructor(props) {
@@ -35,7 +35,6 @@ export default class EditCatalogue extends Component {
   }
   
   saveProduit(currentState) {
-    console.log(currentState)
     var data = {
       id: currentState.id,
       nom: currentState.nom,
@@ -45,15 +44,15 @@ export default class EditCatalogue extends Component {
     };
     
     SystemDataService.createProduit(data)
-      .then(response => {
-        this.setState({
-          submitted: true
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-          console.log(e);
+    .then(response => {
+      this.setState({
+        submitted: true
       });
+      console.log(response.data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
   }
 
   onChangeNom(e) {
@@ -95,17 +94,21 @@ export default class EditCatalogue extends Component {
     return (
       <div className="submit-form">
         {this.state.submitted ? (
+
           <div>
             <h4>Produit ajouté !</h4>
             <button className="btn btn-success" onClick={this.resetState}>
               Ajouter
             </button>
             <Link to={"/catalogue"} className="btn btn-warning" >
-                Retour
+              Retour
             </Link>
           </div>
+
         ) : (
+
           <div>
+
             <div className="form-group">
               <label htmlFor="nom">nom</label>
               <input
@@ -165,9 +168,11 @@ export default class EditCatalogue extends Component {
               className="btn btn-success">
                 Submit
             </button>
+
             <Link to={"/catalogue"} className="btn btn-warning" >
                 Retour
             </Link>
+            
           </div>
         )}
     </div>

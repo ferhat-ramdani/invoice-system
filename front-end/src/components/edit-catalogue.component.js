@@ -25,6 +25,7 @@ class EditCatalogue extends Component {
   }
 
   componentDidMount() {
+    // récupérer la liste des catégories TVA
     SystemDataService.getTVAs()
     .then(response => {
       this.setState({TVAs : response.data});
@@ -34,26 +35,27 @@ class EditCatalogue extends Component {
         console.log(e);
     });
 
+    // récupérer l'id du produit à modifier
     let id = this.props.router.params.id;
 
+    //récupérer les informations du produit
     SystemDataService.getProduit(id)
     .then(response => {
     this.setState({
-        id: response.data.id,
-        nom: response.data.nom,
-        PUHT: response.data.PUHT,
-        description: response.data.description,
-        codeTVA: response.data.codeTVA
-        });
-        console.log(response.data);
+      id: response.data.id,
+      nom: response.data.nom,
+      PUHT: response.data.PUHT,
+      description: response.data.description,
+      codeTVA: response.data.codeTVA
+      });
+      console.log(response.data);
     })
     .catch(e => {
-        console.log(e);
+      console.log(e);
     });
   }
   
   updateProduit(currentState) {
-    console.log(currentState.codeTVA)
     var data = {
       id: currentState.id,
       nom: currentState.nom,
@@ -106,9 +108,13 @@ class EditCatalogue extends Component {
   }
 
   render() {
+
     return (
+
       <div className="submit-form">
+
         {this.state.submitted ? (
+
           <div>
             <h4>Produit mis à jour !</h4>
             <button className="btn btn-success" onClick={this.resetState}>
@@ -118,8 +124,11 @@ class EditCatalogue extends Component {
                 Retour
             </Link>
           </div>
+
         ) : (
+
           <div>
+
             <div className="form-group">
               <label htmlFor="nom">nom</label>
               <input
@@ -168,7 +177,9 @@ class EditCatalogue extends Component {
               onChange={this.onChangeCodeTVA}>
 
                 {this.state.TVAs && this.state.TVAs.map((TVA, index) => (
-                  <option value={TVA.id} key={index}>{TVA.id}</option>
+                  <option value={TVA.id} key={index}>
+                    {TVA.id}
+                  </option>
                 ))}
 
               </select>
@@ -179,9 +190,11 @@ class EditCatalogue extends Component {
               className="btn btn-success">
                 Submit
             </button>
+
             <Link to={"/catalogue"} className="btn btn-warning" >
                 Retour
             </Link>
+            
           </div>
         )}
     </div>
