@@ -12,11 +12,10 @@ class Welcome extends Component {
     return (
       <div className="container">
         <h1>
-            Bienvenu !
+            Welcome !
         </h1>
         <p>
-            Invoice System est une API conçu avec les technologies de pointe afin de permettre a ses utilisateurs de gérer les
-            factures Okayo.
+            Invoice-System is an API designed with cutting-edge technologies to empower its users in managing their invoices seamlessly.
         </p>
       </div>
     );
