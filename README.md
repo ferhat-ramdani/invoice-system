@@ -25,8 +25,8 @@ The project utilizes the following technologies:
 To run the application locally, follow these steps:
 
 1. Make sure you have PostgreSQL, Node.js, and npm installed on your machine.
-2. Clone this GitHub repository: `git clone <repository-link>`.
-3. Navigate to the backend directory: `cd backend`.
+2. Clone this GitHub repository: `git clone https://github.com/ferhat-ramdani/invoice-system.git`.
+3. Navigate to the backend directory: `cd server`.
 4. Install the required dependencies: `npm install`.
 5. Set up the PostgreSQL database by configuring the connection details in `config.js`.
 6. Start the backend server: `npm start`.
