@@ -36,4 +36,5 @@ To run the application locally, follow these steps:
 10. Open your web browser and go to `http://localhost:3000` to access the Invoice-System application.
 
 ## Authors
-- RAMDANI Ferhat
+
+- RAMDANI Ferhat ([@Ferhat](https://github.com/ferhat-ramdani))
